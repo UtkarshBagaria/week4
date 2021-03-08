@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
@@ -17,6 +19,35 @@ class _PomodoroState extends State<Pomodoro> {
   double percent = 0;
   static int TimeInMinut = 25;
   int TimeInSec = TimeInMinut * 60;
+  Timer timer;
+  _StartTimer(){
+    TimeInMinut=25;
+    int Time=TimeInMinut*60;
+    double SecPercent=(Time/100);
+    timer=Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if(Time >0){
+          Time--;
+          if(Time % 60==0){
+            TimeInMinut--;
+          }if(Time% SecPercent == 0){
+            if(percent <1){
+              percent += 0.01;
+            }else {
+              percent=1;
+            }
+
+
+            }
+        }else{
+          percent=0;
+          TimeInMinut=25;
+          timer.cancel();
+        }
+      });
+
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -44,6 +75,8 @@ class _PomodoroState extends State<Pomodoro> {
               ),
               Expanded(
                 child: CircularPercentIndicator(
+
+                  circularStrokeCap: CircularStrokeCap.round,
                   percent: percent,
                   animation: true,
                   animateFromLastPercent: true,
@@ -98,6 +131,7 @@ class _PomodoroState extends State<Pomodoro> {
                       ),
                       Padding(padding: EdgeInsets.symmetric(vertical:28.0),
                         child: RaisedButton(
+                          onPressed: _StartTimer,
                         color: Colors.blue,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100.0),
                         ),
