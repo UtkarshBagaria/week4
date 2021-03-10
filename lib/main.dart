@@ -16,38 +16,52 @@ class Pomodoro extends StatefulWidget {
 }
 
 class _PomodoroState extends State<Pomodoro> {
+  String s = "Studying";
   double percent = 0;
   static int TimeInMinut = 25;
   int TimeInSec = TimeInMinut * 60;
   Timer timer;
-  _StartTimer(){
-    TimeInMinut=25;
-    int Time=TimeInMinut*60;
-    double SecPercent=(Time/100);
-    timer=Timer.periodic(Duration(seconds: 1), (timer) {
+  _StartTimer() {
+
+    int Time = TimeInMinut * 60;
+    double SecPercent = (Time / 100);
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
-        if(Time >0){
+        if (Time > 1) {
           Time--;
-          if(Time % 60==0){
+          if (Time % 60 == 0) {
             TimeInMinut--;
-          }if(Time% SecPercent == 0){
-            if(percent <1){
+          }
+          if (Time % SecPercent == 0) {
+            if (percent < 1) {
               percent += 0.01;
-            }else {
-              percent=1;
-            }
-
+            } else {
+              percent = 0;
 
             }
-        }else{
-          percent=0;
-          TimeInMinut=25;
+          }
+        }
+        else if (Time>0 && Time<=1) {
+          if (s == "Studying") {
+            TimeInMinut = 5;
+            s = "Break";
+            Time = TimeInMinut * 60;
+            percent=0.0;
+          } else {
+            TimeInMinut = 25;
+            s = "Studying";
+            Time = TimeInMinut * 60;
+            percent=0.0;
+          }
+        } else {
+          percent = 0;
+          TimeInMinut = 25;
           timer.cancel();
         }
       });
-
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -75,7 +89,6 @@ class _PomodoroState extends State<Pomodoro> {
               ),
               Expanded(
                 child: CircularPercentIndicator(
-
                   circularStrokeCap: CircularStrokeCap.round,
                   percent: percent,
                   animation: true,
@@ -89,64 +102,100 @@ class _PomodoroState extends State<Pomodoro> {
                   ),
                 ),
               ),
-              SizedBox(height: 30.0,),
-              Expanded(child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white60,
-                  borderRadius: BorderRadius.only(topRight: Radius.circular(30.0),topLeft: Radius.circular(30.0),),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(top: 30.0,left: 20.0,right: 20.0,),
-                  child: Column(
-                    children: <Widget>[
-                      Expanded(child: Row(
-                        children: <Widget>[
-                          Expanded(child: Column(
-                            children: <Widget> [
-                              Text(
-                                "Study Timer",
-                                style: TextStyle(fontSize: 30.0,),
+              SizedBox(
+                height: 30.0,
+              ),
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.white60,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(30.0),
+                      topLeft: Radius.circular(30.0),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      top: 30.0,
+                      left: 20.0,
+                      right: 20.0,
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        Expanded(
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(
+                                      "Study Timer",
+                                      style: TextStyle(
+                                        fontSize: 30.0,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10.0,
+                                    ),
+                                    Text(
+                                      "25",
+                                      style: TextStyle(
+                                        fontSize: 80.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                              SizedBox(height:10.0,),
-                              Text("25",style: TextStyle(fontSize: 80.0,),),
+                              Expanded(
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(
+                                      "Pause Timer",
+                                      style: TextStyle(
+                                        fontSize: 30.0,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10.0,
+                                    ),
+                                    Text(
+                                      "5",
+                                      style: TextStyle(
+                                        fontSize: 80.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
-                          ),
-                          Expanded(child: Column(
-                            children: <Widget> [
-                              Text(
-                                "Pause Timer",
-                                style: TextStyle(fontSize: 30.0,),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 28.0),
+                          child: RaisedButton(
+                            onPressed: _StartTimer,
+                            color: Colors.blue,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(100.0),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.all(20.0),
+                              child: Text(
+                                "Start Studying",
+                                style: TextStyle(
+                                  color: Colors.white60,
+                                  fontSize: 22.0,
+                                ),
                               ),
-                              SizedBox(height:10.0,),
-                              Text("5",style: TextStyle(fontSize: 80.0,),),
-                            ],
+                            ),
                           ),
-                          ),
-
-                        ],
-
-                      ),
-                      ),
-                      Padding(padding: EdgeInsets.symmetric(vertical:28.0),
-                        child: RaisedButton(
-                          onPressed: _StartTimer,
-                        color: Colors.blue,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100.0),
                         ),
-                        child: Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: Text("Start Studying",
-                        style: TextStyle(color: Colors.white60,
-                        fontSize: 22.0,),),),
-                        ) ,
-                        ),
-
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),),
+              ),
             ],
           ),
         ),
