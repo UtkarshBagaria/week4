@@ -83,8 +83,8 @@ class _PomodoroState extends State<Pomodoro> {
               Padding(
                 padding: EdgeInsets.only(top: 30.0),
                 child: Text(
-                  "Pomodoro Clock",
-                  style: TextStyle(color: Colors.black, fontSize: 40.0),
+                  "Study Clock",
+                  style: TextStyle(color: Colors.black, fontSize: 40.0,fontFamily: "Lobster-Regular"),
                 ),
               ),
               Expanded(
@@ -132,7 +132,7 @@ class _PomodoroState extends State<Pomodoro> {
                                     Text(
                                       "Study Timer",
                                       style: TextStyle(
-                                        fontSize: 30.0,
+                                        fontSize: 30.0,fontFamily: "Lobster-Regular"
                                       ),
                                     ),
                                     SizedBox(
@@ -153,7 +153,7 @@ class _PomodoroState extends State<Pomodoro> {
                                     Text(
                                       "Pause Timer",
                                       style: TextStyle(
-                                        fontSize: 30.0,
+                                        fontSize: 30.0,fontFamily: "Lobster-Regular",
                                       ),
                                     ),
                                     SizedBox(
@@ -175,7 +175,7 @@ class _PomodoroState extends State<Pomodoro> {
                           padding: EdgeInsets.symmetric(vertical: 28.0),
                           child: RaisedButton(
                             onPressed: _StartTimer,
-                            color: Colors.blue,
+                            color: Colors.teal,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(100.0),
                             ),
@@ -184,8 +184,8 @@ class _PomodoroState extends State<Pomodoro> {
                               child: Text(
                                 "Start Studying",
                                 style: TextStyle(
-                                  color: Colors.white60,
-                                  fontSize: 22.0,
+                                  color: Colors.black,
+                                  fontSize: 25.0,
                                 ),
                               ),
                             ),
